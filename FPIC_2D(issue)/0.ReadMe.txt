@@ -1,0 +1,117 @@
+
+field_setting.f90   场生成器
+pic_init.f90        粒子初始条件生成器
+**************************************************************
+rm -rf out_xz init_particles		删除旧的初始场和初始粒子文件
+mkdir -p out_xz init_particles		新建旧的初始场和初始粒子文件
+
+编译运行场生成器
+mpiifx -O3 -heap-arrays 1.field_setting.f90 -o field_harris_xz
+./field_harris_xz
+
+[此时场文件写入out_xz/]
+
+编译运行粒子生成器
+mpiifx -O3 -heap-arrays 2.pic_init.f90 -o particle_harris_xz
+mpirun -np 16 ./particle_harris_xz
+
+[此时粒子文件写入init_particles/]
+
+如果使用job，直接执行
+./job_PIC_core.sh
+
+如果不使用job，执行下面脚本
+mkdir -p dynamic_electrons_position dynamic_electrons_velocity \
+  dynamic_ions_position dynamic_ions_velocity \
+  dynamic_fields_Bx dynamic_fields_By dynamic_fields_Bz \
+  dynamic_fields_Ex dynamic_fields_Ey dynamic_fields_Ez diagnostics
+  
+mpiifx -O3 -heap-arrays \
+  pic_modules.f90 \
+  boris_solver_yee.f90 \
+  Domain_Decomposition_Module.f90 \
+  Ghost_Cells_Module.f90 \
+  diagnostics_solver.f90 \
+  data_loader_module.f90 \
+  restart_manager_module.f90 \
+  Particle_Migration_Module.f90 \
+  beam_injection_module.f90 \
+  Utility_Functions.f90 \
+  Particle_Operations.f90 \
+  Load_Balance_Module.f90 \
+  pic_core.f90 \
+  -o PIC_CORE_Zhang
+  
+mpirun -np 16 ./PIC_CORE_Zhang
+
+
+清理文件
+./clean.sh
+
+**************************************************************
+sub_ratio、freq_ion、freq_elec、freq_field为测试临时设置为10
+
+**************************************************************
+目前状态：
+电子单步位移过大，直接跨越多个 z-slab。
+两种可能：1、电子速度数值发散，原因不明。2、MPI 域归属与粒子实际位置不同步。
+
+目前状态log：
+ ----------------- Start Code -----------------
+ z-slab domain decomposition enabled:           16  MPI ranks
+ global grid =          129  x            1  x          129
+rank     0: global k=     1 ...      9, local nz=     9
+rank     1: global k=    10 ...     17, local nz=     8
+rank     2: global k=    18 ...     25, local nz=     8
+rank     3: global k=    26 ...     33, local nz=     8
+rank     4: global k=    34 ...     41, local nz=     8
+rank     5: global k=    42 ...     49, local nz=     8
+rank     6: global k=    50 ...     57, local nz=     8
+rank     7: global k=    58 ...     65, local nz=     8
+rank     8: global k=    66 ...     73, local nz=     8
+rank     9: global k=    74 ...     81, local nz=     8
+rank    10: global k=    82 ...     89, local nz=     8
+rank    11: global k=    90 ...     97, local nz=     8
+rank    12: global k=    98 ...    105, local nz=     8
+rank    13: global k=   106 ...    113, local nz=     8
+rank    14: global k=   114 ...    121, local nz=     8
+rank    15: global k=   122 ...    129, local nz=     8
+ Background particle loading complete.
+load step=         0 min=      432573 max=     2570520 total=    20000000 max/avg=   2.056
+ ----------------- Start Main -----------------
+ Ion sub_ratio / dynamic load balance:           10 F
+ Load background / inject beam / RF:  T F F
+ CARA RF frequency [MHz]:    38.1129826978626
+ CARA RF Ey peak [V/m]:     200000.000000000
+ Step:            1
+ Step:            2
+ Step:            3
+ Step:            4
+ Step:            5
+ Step:            6
+ Step:            7
+ Step:            8
+ Step:            9
+ Step:           10
+ Step:           11
+ Step:           12
+ Step:           13
+ Step:           14
+ Step:           15
+ Step:           16
+ Step:           17
+ Step:           18
+ Step:           19
+ Step:           20
+ Step:           21
+ Step:           22
+ Step:           23
+ Step:           24
+ Step:           25
+ Step:           26
+ ERROR: electron particle crossed a non-neighbor domain on rank           12
+ particle id=                208780  z=  1.536842173245234E-002  owner=
+          14
+Abort(21) on node 12 (rank 12 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 21) - process 12
+
+

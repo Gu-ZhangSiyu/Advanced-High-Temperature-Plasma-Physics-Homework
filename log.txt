@@ -1,0 +1,60 @@
+初始化结果1：
+ [Background field based] ion =   81262805879822.1     
+ [Hyperparticle Weighting] ion =   1625256.11759644     
+ [ION] init inaccuracies =  0.608439692156828     
+ [ION] RMSE of density =  1.239526437348688E+016
+ [Background field based] elec =   81262805879822.1     
+ [Hyperparticle Weighting] ele =   1625256.11759644     
+ [elec] init inaccuracies =  0.598710250218414     
+ [elec] RMSE of density =  1.239046500452208E+016
+ [charge neutrality] Q_total =  0.000000000000000E+000
+
+初始化结果2：
+ [Background field based] ion =   119830409954537.     
+ [Hyperparticle Weighting] ion =   2396608.19909074     
+ [ION] init inaccuracies =  0.615198084011754     
+ [ION] RMSE of density =  1.672681868463088E+016
+ [Background field based] elec =   119830409954537.     
+ [Hyperparticle Weighting] ele =   2396608.19909074     
+ [elec] init inaccuracies =  0.601039423920884     
+ [elec] RMSE of density =  1.672161989721595E+016
+ [charge neutrality] Q_total =  0.000000000000000E+000
+
+初始化结果3：
+ [Background field based] ion =   61603839978584.9     
+ [Hyperparticle Weighting] ion =   1232076.79957170     
+ [ION] init inaccuracies =  0.609488311941055     
+ [ION] RMSE of density =  9.512506559290882E+015
+ [Background field based] elec =   61603839978584.9     
+ [Hyperparticle Weighting] ele =   1232076.79957170     
+ [elec] init inaccuracies =  0.601441681151903     
+ [elec] RMSE of density =  9.505664363457740E+015
+ [charge neutrality] Q_total =  0.000000000000000E+000
+
+初始化结果4：
+ [Background field based] ion =   81262805879822.1     
+ [Hyperparticle Weighting] ion =   1625256.11759644     
+ [ION] init inaccuracies =  0.608439692156828     
+ [ION] RMSE of density =  1.239526437348688E+016
+ [Background field based] elec =   81262805879822.1     
+ [Hyperparticle Weighting] ele =   1625256.11759644     
+ [elec] init inaccuracies =  0.598710250218414     
+ [elec] RMSE of density =  1.239046500452208E+016
+ [charge neutrality] Q_total =  0.000000000000000E+000
+ 
+参数1 - 基准：
+ B0 = 0.009 T
+ lambda = 24.0d0 * dy
+
+参数2：
+ 重联反转磁场	0.009 T
+ lambda = 48.0d0 * dy
+
+参数3：
+ 重联反转磁场	0.009 T
+ lambda = 12.0d0 * dy
+ 
+参数4：
+ B0 = 0.05d0
+ lambda = 24.0d0 * dy
+ 
